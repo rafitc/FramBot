@@ -67,10 +67,11 @@ void loop() {
     else if (m.text.equals("FarmHumidity")){     
     float h;
     String myh;
-    myh = String(h);
+   
     h = dht.readHumidity();        
     Serial.print("Current humidity = ");
     Serial.print(h);
+    myh = String(h);
     delay(500);
     bot.sendMessage(m.chat_id, "Humidity = ");
     bot.sendMessage(m.chat_id, myh);

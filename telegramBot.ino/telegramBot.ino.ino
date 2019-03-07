@@ -3,12 +3,13 @@
 #include <WiFiClientSecure.h>
 #include <TelegramBot.h>
 
-#define dht_dpin 0 
 #define DHTTYPE DHT11
+#define dht_dpin 0 
+
 
 
 DHT dht(dht_dpin, DHTTYPE);
-int sensor_pin = A0;
+const int sensor_pin = A0;
 int motor = 2; // in D4
 
 const char* ssd = "Naveed";
@@ -64,13 +65,15 @@ void loop() {
     bot.sendMessage(m.chat_id, moisture_percentage); 
   } 
     else if (m.text.equals("FarmHumidity")){     
-    String h;
+    float h;
+    String myh;
+    myh = String(h);
     h = dht.readHumidity();        
     Serial.print("Current humidity = ");
     Serial.print(h);
     delay(500);
     bot.sendMessage(m.chat_id, "Humidity = ");
-    bot.sendMessage(m.chat_id, h);
+    bot.sendMessage(m.chat_id, myh);
     }
     else if (m.text.equals("motoron")){ 
       digitalWrite(motor, HIGH);

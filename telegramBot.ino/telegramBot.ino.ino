@@ -1,15 +1,15 @@
 #include <DHT.h>  //DHT library 
 #include <ESP8266WiFi.h>
-//#include <SPI.h>
 #include <WiFiClientSecure.h>
 #include <TelegramBot.h>
 
-#define dht_dpin 0
+#define dht_dpin 0 
 #define DHTTYPE DHT11
 
 
 DHT dht(dht_dpin, DHTTYPE);
 int sensor_pin = A0;
+int motor = 2; // in D4
 
 const char* ssd = "Naveed";
 const char* pass = "atrnvd007";   // Your Pass
@@ -32,6 +32,7 @@ void setup() {
   bot.begin(); 
   
   dht.begin();
+  pinMode(motor,OUTPUT);
   
 }
 
@@ -71,5 +72,21 @@ void loop() {
     bot.sendMessage(m.chat_id, "Humidity = ");
     bot.sendMessage(m.chat_id, h);
     }
+    else if (m.text.equals("motoron")){ 
+      digitalWrite(motor, HIGH);
+      bot.sendMessage(m.chat_id, "Motor Turned ON");
+    }
+   else if (m.text.equals("motoroff")){ 
+      digitalWrite(motor, LOW);
+      bot.sendMessage(m.chat_id, "Motor Turned OFF");
+    }
+    else if (m.text.equals("Help")) { 
+   bot.sendMessage(m.chat_id, " ==>>FarmTemp :- To know the temperature of your farm ."); 
+   bot.sendMessage(m.chat_id, " ==>>FarmMoisture  :-  To know the Moisture level of your farm.");
+   bot.sendMessage(m.chat_id, "==>>FarmHumidity  :- To Know the Humidity level of your farm.");
+   bot.sendMessage(m.chat_id, "motoron :- To turn on Your Motor");
+   bot.sendMessage(m.chat_id, "motoroff :- To turn off Your Motor");;
+    }
+    
 }
-
+ 
